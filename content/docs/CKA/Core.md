@@ -128,3 +128,25 @@ kubectl config set-context $(kubectl config current-context) --namespace=<namesp
 
 kubectl get pods --all-namespaces
 
+# imperative vs delarative
+Imperative: step by step instructions. Like step by step config on how to install nginx. 
+commands like set, create, run are imperative commands.
+kubectl edit deployment nginx
+kubectl replace -f nginx.yaml
+kubectl replace --force -f nginx.yaml
+
+Declarative: only final dest. Now how but what. Tools like ansible, terraform. 
+command like kubectl apply -f is declarative. Apply create if not exist. 
+kubectl apply -f /path/to/config-files
+update can also with apply. 
+
+In exam use imperative commands to save time.
+
+# Kubectl apply
+1. If object not exist object is created
+2. Live object configuration is created on kubernetes cluster
+3. Last applied configuration is stored in json file.  
+When apply with file then live object config is updated en then the last applied config. Only done with apply, create and update is not using this. 
+So keep this is mind when using declarative and imperative commands.
+Last applied is used; when something is removed from the local file, it can be compared to last applied to compare. 
+https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config
