@@ -1,4 +1,16 @@
 # Scheduling
+Pod koppelen aan een node:
+- Nodename in pod specification
+- Create a binding object (if pod already exist)
+- Taints en tolerations
+- node selectors
+- node affinity
+
+Resource:
+- Limits / requests
+- Limit range
+- quotas
+
 ## Manual scheduling
 Set nodeName in pod specification to set pod to a specific node.
 Pod definition has by default a nodeName under spec. But this is normally not set but set automatically and scheduled by scheduler.
