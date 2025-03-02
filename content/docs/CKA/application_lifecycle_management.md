@@ -27,5 +27,11 @@ kubectl rollout undo deployment/myapp
 2. Rolling update: destory and recreate one by one (default). 
 
 
+## Application commands & arguments
+Define other CMD in docker image: containers --> args: ["10"]
+Define other entrypoint in Docker image: containers --> command ["sleep2.0"]
 
-
+### Environments variables
+containers --> - --> env: --> - --> name, value
+Andere manieren van enviroments is met ConfigMap of Secrets. dan wordt value: valuefrom --> configmapkeyref, secretkeyref.
+#### Configmaps
