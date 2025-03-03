@@ -35,3 +35,8 @@ Define other entrypoint in Docker image: containers --> command ["sleep2.0"]
 containers --> - --> env: --> - --> name, value
 Andere manieren van enviroments is met ConfigMap of Secrets. dan wordt value: valuefrom --> configmapkeyref, secretkeyref.
 #### Configmaps
+In a configmap object you can define variables which can be used in a pod.
+1. Create configmap 
+2. inject into pod
+Imperative: kubectl create configmap
+Declarative: kubectl apply -f <definition file>
