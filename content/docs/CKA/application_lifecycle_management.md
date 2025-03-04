@@ -144,4 +144,9 @@ Modes:
 - recreate: evicts pods if usage goed beyond range
 - auto: update existing pods to recommended number. (similiar to recreate)
 
+```bash
+kubectl get vpa flask-app -o yaml
+```
+
+
 Vpa is best for stateful workloads, cpu/memory-heavy apps (dbs, ml workloads)
