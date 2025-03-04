@@ -97,5 +97,51 @@ Horizontale means add more instances
 In kubernetes you can scale workloads (applications) and scaling cluster infra (node).
 This can be done manual or automated.
 Automated: cluster autoscaler, horizontale pod autoscaler (hpa), vertical pod autoscaler (vpa)
+See resource uses of pods with kubectl top pod (metrics server must enabled)
+### HPA 
+Manual way: kubectl scale deployment app --replicas=3
+Better way is with HPA
+Hpa monitors the metrics, then automatically increases/decreases pod based on resources, balance thresholds, tracks multiple metrics.
+```bash
+kubectl autoscale deployment myapp --cpu-percent=50 --min=1 --max=10
+```
+```bash
+kubectl get hpa
+```
+or
+definition file: kind HorizontalPodAutoscaler
+Best for: web apps, microservices, stateless services.
 
+### in-place resize of pods
+Now if you change the resource definitions of a pod, the pod wil be recreated. 
+Now there is a alpha feature: InPlacePodVerticalScaling
+To enable this feature (not default enabled): 
+```bash
+FEATURE_GATES=InPlacePodVerticalScaling=true
+```
+In the pod define resizePolicy for cpu and memory
+Limitations: only cpu and memory resources, pod qos class cannot change, init containers and ephemeral containers cannot be resized, resource requests and limits cannot be removed once set,
+a containers memory limit may not be reduced below its usage, windows pods cannot be resized.
 
+## Verical pod autoscale (vpa)
+Manual edit resources, this wil recreate the pod:
+```bash
+kubectl edit deployment my-app
+```
+VPA:
+vpa does not come built-in with kubernetes, hence we must deploy it from github.
+```bash
+kubectl get pods -n kube-system | grep vpa
+```
+There wil be 3 pods;
+- vpa admission controller: get info from recommender, apply the recommendations at startup.
+- VPA updater: get info from recommender and monitor pods, and if a pod needs to be updated, it terminate the pod.
+- vpa recommender: is responsible monitor resouce metrics from metrics server, and provide recommendations.
+Only with definition file: VerticalPodAutoscaler
+Modes:
+- off: only recommends. Does not change anything
+- initial: only changes on pod creation not later
+- recreate: evicts pods if usage goed beyond range
+- auto: update existing pods to recommended number. (similiar to recreate)
+
+Vpa is best for stateful workloads, cpu/memory-heavy apps (dbs, ml workloads)
