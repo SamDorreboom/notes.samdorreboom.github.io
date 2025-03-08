@@ -51,6 +51,35 @@ You must specifie group in the certificate. System components needs to called SY
 The kubelet certificates are named to their nodes name.
 Kubectl nodes client cert name: system:node:node01
 
+### View certificates details
+First it is important to know how the cluster is setup: hard way or kubeadm
+Hard way then all the certificates are self created:
+```bash
+cat /etc/systemd/system/kube-apiserver.service
+```
+Kubeadm takes care to generate the certificates for you:
+```bash
+cat /etc/kubernetes/manifests/kube-apiserver.yaml
+```
+Kubeadm deploys everything as pod.
 
+See the details of a certificate:
+```bash
+openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text -noout
+```
+See logs:
+```bash
+journalctl -u etcd.service -l
+```
+Kubeadm logs:
+```bash
+kubectl logs etcd-master
+```
+If kubectl nog working use docker commands:
+```bash
+docker logs <container id>
+```
+https://kubernetes.io/docs/setup/best-practices/certificates/
+https://github.com/mmumshad/kubernetes-the-hard-way/tree/master/tools
 
 
