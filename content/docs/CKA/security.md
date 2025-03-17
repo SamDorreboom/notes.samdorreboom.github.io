@@ -238,3 +238,9 @@ Default processes in containers run as root user. To change this define --user= 
 Security settings set on a pod wil overwrite the security settings on a container.
 Under the spec section in pod securityContext, or under the container section. 
 
+## Network policies
+Ingress & egress  have solid line.
+Default the network policy is "All Allow"
+Network policy is a object and can be connect to a pod. 
+Solutions that support network policies: kube-router, calico, romana, weave-net | not support: flannel
+
