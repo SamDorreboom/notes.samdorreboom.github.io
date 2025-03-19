@@ -244,3 +244,11 @@ Default the network policy is "All Allow"
 Network policy is a object and can be connect to a pod. 
 Solutions that support network policies: kube-router, calico, romana, weave-net | not support: flannel
 
+Response traffic is automatic allowed when ingress rule is specified. 
+When pod is in a other namespace but have the same label as in ingress rule it is allowed. If only pods is specific namespace add a namespaceSelector to the networkpolicy.
+For servers outside the cluster you can specify a networkpolicy on a ip with ipBlock. 
+Ingress --> from
+Egress --> to
+
+## Custom resources definition
+
