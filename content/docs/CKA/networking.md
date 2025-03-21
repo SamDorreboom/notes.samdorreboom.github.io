@@ -50,5 +50,5 @@ ip route add
 cat /proc/sys/net/ipv4/ip_forward
 arp
 # for port listening
-netstat
+netstat -npl | grep -i scheduler
 ```
