@@ -51,4 +51,5 @@ cat /proc/sys/net/ipv4/ip_forward
 arp
 # for port listening
 netstat -npl | grep -i scheduler
+netstat -npa | grep -i etcd | grep -i 2379 | wc -l
 ```
