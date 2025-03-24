@@ -90,3 +90,12 @@ resources:
 Other solution is a kustomization file in every directory. And then in the root kustomization file only define the directorys. 
 
 ## Transfomers
+Kustomize transfomers can transform values in config file.
+Common tansformers:
+- commonLabel: adds a label to all Kubernetes resources
+- namePrefix/Suffix: adds a common prefix-suffic to all resource names
+- Namespace: adds a common namespace to all resources
+- commonAnnotations: adds an annotation to all resources
+
+
+## Patches
