@@ -97,5 +97,46 @@ Common tansformers:
 - Namespace: adds a common namespace to all resources
 - commonAnnotations: adds an annotation to all resources
 
-
+**Image transformer**
+Modify the image with kustomize. in kustomization file:
+```yaml
+nginx:
+    - name: nginx (imagename)
+      newName: haproxy
+```
+This code above search for every container that uses the image nginx and replace it with haproxy
+Other option is to add a tag or together
+```yaml
+nginx:
+    - name: nginx (imagename)
+      newTag: 2.4
+```
 ## Patches
+Kustomize patches provide another methode to modifying Kubernetes configs.
+Unlike common transformers patches provide a more surgical approach to targeting one or more specific sections in a kubernetes resource.
+To create a patch 3 parameters must be provided
+- Operation type: add/remove/replace
+- target what resource should this patch be applied on
+- value: what is the value that will either be replaced or added with
+Json 6902 patch
+```yaml
+patches:
+  - target:
+      kind: Deployment
+      name: api-deployment
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 5
+```
+strategic merge path (only define the spec you wanna config)
+```yaml
+patches:
+  - patch: |-
+      apiVer
+      kind
+      metad
+        name
+      spec:
+        repl
+```
