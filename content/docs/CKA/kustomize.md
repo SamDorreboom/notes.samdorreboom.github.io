@@ -140,3 +140,50 @@ patches:
       spec:
         repl
 ```
+
+**Types of patches**
+Inline: define patch in the kustomize file
+Or use seperate file: in the kustomization define a path to patch file:
+```yaml
+patches:
+  - path: replica-patch.yaml
+    target:
+      kind etc
+```
+
+Same for strategic merge file can be in seperated file
+
+**Patches dictionary**
+Remove dictionary in strategic merge patch: define at the key:null
+
+**Patches list**
+JSON: to edit a list use slice number: /spec/template/spec/containers/0, with "add" the number at the end is a "-" or also a index
+In strategic: just define the name, when deleting containers: -$patch: delete, name: database
+
+## Overlays
+The main function for kustomize. In the overlay folder define environment specific configuration. 
+In the overlays folder you can also define a new config like a new deployment. under resources
+Overlay kustomization:
+```yaml
+baes:
+  - ../../base
+resources:
+  - grafana-deply.yaml
+patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 2
+```
+In the overlays folder the subdirectories dont have to be the same as the base folder.
+
+## Components
+Components provide the ability to define reusable pieces of configuration logic(resources+patches) that can be included in multiple overlays
+COmponents are useful in situations where applications support multiple optional features that need to be enabled only in a subset of overlays. 
+Just all the resources for a specific feature.
+In the kustomize folder define a Components folder. With in de components folder define folder with features.
+
+
+
+
+
+
