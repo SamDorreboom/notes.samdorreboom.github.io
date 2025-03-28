@@ -43,3 +43,7 @@ If there are more possible matches for a claim, you can use labels to bind to sp
 Static provisioning: For every pv we need to manually create a cloud volume and create a pv.
 Dynamic provisioning
 With storage class you can define a provisioner like google that automatic provision google cloud storage. Now only a SC and PVC is needed, the pv is created automatically. IN the pvc define a storageClassname. 
+
+
+
+

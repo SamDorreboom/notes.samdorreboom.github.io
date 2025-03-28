@@ -64,6 +64,11 @@ There are many solutions that provide this
 Each node has a bridge network. And each bridge has it own subnet. And pods connect to the bridge network on the node. 
 For pods to connect to pods on other nodes, make a route to the node ip. But this is a lot of a network, better is define a router in cluster. 
 
+Get Kubernetes service like kubelet
+```bash
+ ps -aux | grep kubelet | grep --color container-runtime-endpoint
+ ```
+
 ### Container networking interface (CNI) in K8s
 - Container runtime must create network namespace
 - identify network the container must attach to
@@ -81,5 +86,57 @@ How to use the cni is in /etc/cni/net.d (alfabetic order)
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 
 Example of CNI plugin is Weaveworks. On each node there is a agent. They communicate with each other. Weave creates own bridge on each node. Weave networking looks like real networking with routers. 
+
+
+**IPAM WEAVE**
+CNI plugin is responsible to take assigning ip to pods.
+Host local plugin or dhcp
+In /etc/cni/net.d/net-script.conf you can specify in ipam the type for ip 
+
+## Service networking
+Clusterip Service is accessible by all pods on the cluster. Service is not bound to a node. Service gets a intern ip.
+NodePort is accessible outside the cluster. It gets a intern ip and is accessible on a port on the node.
+Each node runs a kubelet proces, kubelet service watches the changes through api server.
+Each node runs a kube proxy. Kubeproxy watches changes by api server, every time a new service is created, kube proxy gets in action. Service dont exists on a node just on all nodes. Service gets a ip and the proxy creates ip route from service to pods.
+
+Proxy modes: 
+userspace
+iptables (default)
+ipvs
+Proxy mode can be set:
+```bash
+kube-proxy --proxy-mode [userspace | iptables | ipvs]
+```
+```bash
+ps aux | grep kube-api-server
+```
+```bash
+iptables -L -t nat | grep db-service
+```
+Service ip range in kube api config
+```yaml
+cat /etc/kubernetes/manifests/kube-api
+```
+
+## DNS
+Kubernetes has own DNS. DNS name = service name
+DNS name: servicename.namespace.svc.rootdomain
+Pods get also a dns name but the hostname is the ip.
+DNS server in /etc/resolv.conf
+CoreDNS server is a pod in the kube-system namespace.
+/etc/coredns/Corefile
+coredns settings are in config map coredns
+in the kubelet config the dns ip is set
+/var/lib/kubelet/config.yaml
+
+## Ingress
+Without ingress create proxy server that point to nodeport
+Loadbalancer can be used in a cloud platform. Loadbalancer service sends a request to the cloud provider.
+In kubernetes cluster deploy a proxy: nginx, haproxy, traefik. Then configure ingress resources with ingress definition file
+Proxy is not deployed by default
+GCP HTTPS Loadbalancer GCE, nginx, contour, haproxy, traefik, istio. GCP and nginx are maintained by kubernetes project
+
+
+
 
 
